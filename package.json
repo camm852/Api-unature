@@ -1,0 +1,23 @@
+{
+  "name": "unature",
+  "version": "1.0.0",
+  "description": "Api unature",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "Unature",
+    "Node"
+  ],
+  "author": "Carlos",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
