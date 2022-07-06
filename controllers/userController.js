@@ -1,46 +1,28 @@
-import prisma from '@prisma/client'
-    const {PrismaClient} = prisma
-
-    const Prisma = new PrismaClient()
+import {insertUser,dropUser,updateUser,showUser,showUsers} from "../prisma/queries.js"
 
 const newUser = async(req, res) => {
-    const post = await Prisma.post.createMany({
-                data: [
-                    // {nombre: 'daniel', pass: '1236'},
-                    // {nombre: 'jorge', pass: '1235'},
-                    {nombre: 'jorgechupador', pass: '1235'},
-                ]
-            })
-        console.log(post)
-        res.json(post)
+    const post = await insertUser()
+    res.json(post)
+    
 };
 const editUser = async(req, res) => {
-    const post = await Prisma.post.update({
-        where:{
-            id:6
-        },
-        data:{
-            nombre:"camilo"
-        }
-    })
+    const post = await updateUser()
     res.json(post)
 };
 const deleteUser = async(req, res) => {
-    const post = await Prisma.post.delete({
-        where:{
-            id:7
-        }
-    })
+    const post = await dropUser()
     res.json(post)
 };
 const getUsers = async(req, res) => {
-    const get = await Prisma.post.findMany()
-    res.json({get})
+    const post = await showUsers()
+    res.json(post)
 };
 
-
-const getUser = (req, res) => {
-    
+const getUser = async(req, res) => {
+    console.log(req.params)
+    const userID = parseInt(req.params.id)
+    const post = await showUser(userID)
+    res.json(post)
 };
 
 
