@@ -1,5 +1,4 @@
 import express from 'express';
-import david from './prueba.js';
 // import dotenv from 'dotenv';
 // dotenv.config();
 
@@ -14,3 +13,5 @@ app.use('/users', userRoutes);
 app.listen(4000, () => {
 	console.log('Servidor corriendo en el puerto 4000');
 });
+
+
