@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,8 +7,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id Int @id @default(autoincrement())
-  nombre String
-  pass String
+model identificaciones {
+  id_identificacion      Int           @id @default(autoincrement())
+  especie                String        @db.VarChar(20)
+  genero                 String        @db.VarChar(20)
+  nombre_comun           String        @db.VarChar(20)
+  aprobaciones           Int
+  informaci_n__adicional String        @map("informaci¢n__adicional")
+  id_publicacion         Int           @default(autoincrement())
+  publicaciones          publicaciones @relation(fields: [id_publicacion], references: [id_publicacion], onDelete: NoAction, onUpdate: NoAction)
+  sugerencias            sugerencias[]
+}
+
+model imagenes {
+  id_imagen      Int           @id @default(autoincrement())
+  url_imagen     String        @db.VarChar(100)
+  id_publicacion Int           @default(autoincrement())
+  publicaciones  publicaciones @relation(fields: [id_publicacion], references: [id_publicacion], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model publicaciones {
+  reportes         Int
+  id_publicacion   Int                @id @default(autoincrement())
+  descripcion      String
+  ubicacion        Int
+  id_usuario       String             @db.VarChar(10)
+  usuarios         usuarios           @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+  identificaciones identificaciones[]
+  imagenes         imagenes[]
+}
+
+model roles {
+  id_rol   Int        @id @default(autoincrement())
+  tipo_rol String     @db.VarChar(20)
+  usuarios usuarios[]
+}
+
+model sugerencias {
+  id_usuario        String           @db.VarChar(10)
+  id_identificacion Int              @default(autoincrement())
+  identificaciones  identificaciones @relation(fields: [id_identificacion], references: [id_identificacion], onDelete: NoAction, onUpdate: NoAction)
+  usuarios          usuarios         @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction)
+
+  @@id([id_usuario, id_identificacion])
+}
+
+model usuarios {
+  id_usuario     String          @id @db.VarChar(10)
+  correo_usuario String          @db.VarChar(50)
+  contrase_a     String          @map("contrase¤a") @db.VarChar(200)
+  semestre       Int
+  id_rol         Int             @default(autoincrement())
+  roles          roles           @relation(fields: [id_rol], references: [id_rol], onDelete: NoAction, onUpdate: NoAction)
+  publicaciones  publicaciones[]
+  sugerencias    sugerencias[]
 }
